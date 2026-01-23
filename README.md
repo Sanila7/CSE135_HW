@@ -30,3 +30,18 @@ The team site is protected using **Apache Basic Authentication** and served over
 - SSL was configured using Let's Encrypt
 - Authentication is enforced at the Apache virtual host level
 - Protected directory:
+
+### Server Header Obfuscation (Step 6)
+
+To obscure the server identity, the site was placed behind an Nginx reverse proxy, with Apache running only on an internal port.
+
+Apache was reconfigured to listen exclusively on 127.0.0.1:8080, preventing it from directly handling external HTTP/HTTPS traffic. Nginx was then configured to listen on ports 80 and 443, terminate SSL, and forward all requests to Apache internally.
+
+At the Nginx layer, the default upstream Server header was explicitly removed and replaced with a custom value using the headers-more module. This ensures that Apache’s server signature is never exposed to the client.
+
+As a result, all external HTTP responses now include:
+
+Server: CSE135 Server
+
+
+Verification was performed using both curl and Chrome DevTools by inspecting the response headers. A screenshot confirming the modified header is included as header-verify.jpg.
