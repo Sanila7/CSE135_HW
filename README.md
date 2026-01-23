@@ -31,6 +31,15 @@ The team site is protected using **Apache Basic Authentication** and served over
 - Authentication is enforced at the Apache virtual host level
 - Protected directory:
 
+### Summary of Changes Observed in DevTools
+After enabling Apache compression using mod_deflate, the behavior of the HTML file changed when inspected in Chrome DevTools. In the Network tab, the response headers for index.html now include:
+
+Content-Encoding: gzip
+
+
+This indicates that the HTML content is compressed before being sent to the client. Additionally, DevTools shows that the Transferred size of the HTML file is smaller than the original Resource size, confirming that compression is active and reducing the amount of data transmitted over the network. The same compression behavior is observed for CSS and JavaScript files.
+
+
 ### Server Header Obfuscation (Step 6)
 
 To obscure the server identity, the site was placed behind an Nginx reverse proxy, with Apache running only on an internal port.
