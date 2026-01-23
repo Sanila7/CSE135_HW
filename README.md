@@ -1,3 +1,8 @@
+### Team Members
+
+Solo Team Member: Sanila Silva
+
+
 ## GitHub Auto-Deploy to DigitalOcean
 
 This site auto-deploys to my DigitalOcean droplet whenever I push to the `main` branch.
