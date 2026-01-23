@@ -27,7 +27,7 @@ The team site is protected using **Apache Basic Authentication** and served over
 - **URL:** https://sanisilva.site
 - **Authentication Type:** Basic Auth (Apache)
 - **Username:** sanila
-- **Password:** DSanila@0124
+- **Password:** CSE135
 - **Username:** grader
 - **Password:** Grader123
 
