@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Echo Test Form</title>
+</head>
+<body>
+  <h1>Echo Test Form</h1>
+  <p>Team Member: Sanila Silva (Solo)</p>
+
+  <form id="echoForm" method="POST" action="/cgi-bin/python-echo.py">
+    
+    <label>Language:</label>
+    <select id="language">
+      <option value="python">Python</option>
+    </select>
+    <br><br>
+
+    <label>HTTP Method:</label>
+    <select id="method">
+      <option>GET</option>
+      <option>POST</option>
+      <option>PUT</option>
+      <option>DELETE</option>
+    </select>
+    <br><br>
+
+    <label>Encoding:</label>
+    <select id="encoding">
+      <option value="form">application/x-www-form-urlencoded</option>
+      <option value="json">application/json</option>
+    </select>
+    <br><br>
+
+    <label>Message:</label>
+    <input type="text" name="message" value="Hello Echo">
+    <br><br>
+
+    <button type="submit">Send Request</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("echoForm");
+
+    form.addEventListener("submit", function (e) {
+      const method = document.getElementById("method").value;
+      const encoding = document.getElementById("encoding").value;
+
+      form.method = method === "GET" ? "GET" : "POST";
+
+      if (encoding === "json") {
+        e.preventDefault();
+
+        const data = {
+          message: form.message.value
+        };
+
+        fetch("/cgi-bin/python-echo.py", {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })
+        .then(res => res.text())
+        .then(text => document.write(text));
+      }
+    });
+  </script>
+
+</body>
+</html>
+
