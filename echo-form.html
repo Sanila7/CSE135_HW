@@ -12,6 +12,7 @@
     <label>Language:</label>
     <select id="language">
       <option value="python">Python</option>
+      <option value="php">PHP</option>
     </select>
     <br><br>
 
@@ -38,33 +39,43 @@
     <button type="submit">Send Request</button>
   </form>
 
-  <script>
-    const form = document.getElementById("echoForm");
+   <script>
+  const form = document.getElementById("echoForm");
 
-    form.addEventListener("submit", function (e) {
-      const method = document.getElementById("method").value;
-      const encoding = document.getElementById("encoding").value;
+  form.addEventListener("submit", function (e) {
+    const method = document.getElementById("method").value;
+    const encoding = document.getElementById("encoding").value;
+    const language = document.getElementById("language").value;
 
-      form.method = method === "GET" ? "GET" : "POST";
+    // Choose endpoint based on language
+    let endpoint = "/cgi-bin/python-echo.py";
+    if (language === "php") {
+      endpoint = "/hw2/php/echo.php";
+    }
 
-      if (encoding === "json") {
-        e.preventDefault();
+    // GET must stay GET for non-JS fallback
+    form.method = method === "GET" ? "GET" : "POST";
+    form.action = endpoint;
 
-        const data = {
-          message: form.message.value
-        };
+    // JSON requires fetch()
+    if (encoding === "json") {
+      e.preventDefault();
 
-        fetch("/cgi-bin/python-echo.py", {
-          method: method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        })
-        .then(res => res.text())
-        .then(text => document.write(text));
-      }
-    });
-  </script>
+      const data = {
+        message: form.message.value
+      };
 
+      fetch(endpoint, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(text => document.write(text));
+    }
+  });
+</script>
 </body>
 </html>
-
