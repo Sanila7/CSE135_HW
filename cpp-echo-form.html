@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>C++ Echo Form</title>
+</head>
+<body>
+
+<h1>C++ Echo Demo</h1>
+<p>Team Member: Sanila Silva</p>
+
+<form id="echoForm">
+  <label>Message:</label><br>
+  <input type="text" name="message" required><br><br>
+
+  <label>HTTP Method:</label><br>
+  <select id="method">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+  </select><br><br>
+
+  <label>Encoding:</label><br>
+  <select id="encoding">
+    <option value="application/x-www-form-urlencoded">
+      x-www-form-urlencoded
+    </option>
+  </select><br><br>
+
+  <button type="submit">Send</button>
+</form>
+
+<script>
+document.getElementById("echoForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const method = document.getElementById("method").value;
+  const form = e.target;
+  const data = new URLSearchParams(new FormData(form));
+
+  let url = "/cgi-bin/cpp-echo";
+
+  if (method === "GET") {
+    window.location = url + "?" + data.toString();
+  } else {
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data.toString()
+    })
+    .then(res => res.text())
+    .then(html => {
+      document.body.innerHTML = html;
+    });
+  }
+});
+</script>
+
+</body>
+</html>
