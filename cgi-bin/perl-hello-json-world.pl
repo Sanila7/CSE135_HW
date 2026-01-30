@@ -1,14 +1,21 @@
 #!/usr/bin/perl
-# In Perl, you must first install the JSON package from CPAN (the Perl equivalent to npm)
+use strict;
+use warnings;
 use JSON;
 
-print "Cache-Control: no-cache\n";
-print "Content-type: application/json\n\n";
+print "Content-Type: application/json\r\n";
+print "Cache-Control: no-cache\r\n";
+print "\r\n";
 
-$date = localtime();
-$address = $ENV{REMOTE_ADDR};
+my $date    = scalar localtime();
+my $address = $ENV{REMOTE_ADDR} // "";
 
-my %message = ('title' => 'Hello, Sanila!', 'heading' => 'Hello, Sanila!', 'message' => 'This page was generated with the Perl programming language', 'time' => $date, 'IP' => $address);
+my %message = (
+  title   => "Hello, Sanila!",
+  heading => "Hello, Sanila!",
+  message => "This page was generated with Perl using JSON.pm",
+  date    => $date,
+  ip      => $address,
+);
 
-my $json = encode_json \%message;
-print "$json\n";
+print encode_json(\%message);
