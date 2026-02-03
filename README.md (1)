@@ -1,0 +1,23 @@
+### Team Members
+
+Solo Team Member: Sanila Silva
+
+
+### Access
+- **URL:** https://sanisilva.site
+- **Username:** sanila
+- **Password:** CSE135
+- **Username:** grader
+- **Password:** Grader123
+- **IP Address:** 178.128.6.126
+
+### Third Approach Analytics Platform: Matomo
+For my third analytics approach, I evaluated Matomo (formerly Piwik), an open-source analytics platform. I chose Matomo because it provides comprehensive user insights including:
+
+User location - Geographic data showing where visitors are accessing the site from
+Operating system - Detailed breakdown of what OS users are running (Windows, macOS, Linux, etc.)
+Device information - Data on whether users are on desktop, mobile, or tablet, including specific device models, in addition to resolution on their device
+User actions within the website - Tracking of clicks, page views, navigation paths, and specific interactions throughout the site
+
+Analysis: I really liked how simple Matomo was to set up and immediately start tracking user activity on my website; it's ease of us was better than Google Analytics and LogRocket.
+
