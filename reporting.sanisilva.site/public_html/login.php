@@ -1,39 +1,57 @@
 <?php
 session_start();
+
 if (isset($_SESSION['user'])) {
     header('Location: /dashboard.php');
     exit();
 }
 
 $error = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $conn = new mysqli('localhost', 'collector', 'Collector@123!', 'collector_db');
-    $stmt = $conn->prepare("SELECT id, username, role, allowed_reports FROM users WHERE username = ? AND password = SHA2(?, 256)");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    $conn->close();
+    // Legacy HW4 fallback login
+    if ($username === 'admin' && $password === 'pulsar123') {
+        $_SESSION['user'] = [
+            'id' => 0,
+            'username' => 'admin',
+            'role' => 'superadmin',
+            'allowed_reports' => 'activity,performance,static'
+        ];
+        header('Location: /dashboard.php');
+        exit();
+    }
 
-    if ($user) {
-    $_SESSION['user'] = $user;
-    header('Location: /dashboard.php');
-    exit();
-} elseif ($username === 'admin' && $password === 'pulsar123') {
-    $_SESSION['user'] = [
-        'id' => 0,
-        'username' => 'admin',
-        'role' => 'superadmin',
-        'allowed_reports' => 'activity,performance,static'
-    ];
-    header('Location: /dashboard.php');
-    exit();
-} else {
-    $error = 'Invalid username or password.';
-}
+    $conn = new mysqli('localhost', 'collector', 'Collector@123!', 'collector_db');
+
+    if ($conn->connect_error) {
+        $error = 'Database connection failed.';
+    } else {
+        $stmt = $conn->prepare("SELECT id, username, role, allowed_reports FROM users WHERE username = ? AND password = SHA2(?, 256)");
+
+        if ($stmt) {
+            $stmt->bind_param("ss", $username, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+            $stmt->close();
+
+            if ($user) {
+                $_SESSION['user'] = $user;
+                $conn->close();
+                header('Location: /dashboard.php');
+                exit();
+            } else {
+                $error = 'Invalid username or password.';
+            }
+        } else {
+            $error = 'Login query failed.';
+        }
+
+        $conn->close();
+    }
 }
 ?>
 <!DOCTYPE html>
