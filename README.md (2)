@@ -1,0 +1,46 @@
+# Pulsar Analytics Platform
+
+## Link to GitHub repo:
+- **Repo:**: https://github.com/Sanila7/CSE135_HW
+## Deployed Site
+- **Main Site:** https://sanisilva.site
+- **Reporting Dashboard:** https://reporting.sanisilva.site
+- **Test Site:** https://test.sanisilva.site
+- **Collector Script:** https://collector.sanisilva.site/collector.js
+
+
+## Technical Overview
+
+### Architecture
+This project is an MVC-style analytics platform built with PHP and MySQL on Apache.
+Data is collected via a custom `collector.js` script served from `collector.sanisilva.site`,
+which tracks static, performance, and activity data from `test.sanisilva.site`.
+The data is stored in a MySQL database (`collector_db`) and visualized on the reporting backend.
+
+### Stack
+- **Frontend:** Bootstrap 5, Chart.js
+- **Backend:** PHP 8.3, Apache with mod_rewrite
+- **Database:** MySQL 8.0
+- **Data Collection:** Vanilla JS (collector.js)
+
+### Features
+- Session-based authentication with 3 user roles (superadmin, analyst, viewer)
+- 3 report categories: Static, Performance, Activity
+- Charts using Chart.js (bar, doughnut, line)
+- Data tables with live MySQL data
+- Analyst comments per report
+- PDF export via print-friendly URL (?print=1)
+- User management (superadmin only)
+- 403/404 error pages
+
+### AI Usage
+This project was built with significant assistance from Claude (Anthropic).
+Claude helped generate PHP files, MySQL queries, Bootstrap layouts,
+the collector.js script, and debugging throughout development.
+
+## Roadmap
+- Add email-based PDF export
+- Add date range filtering on reports
+- Add signup system for self-service analyst accounts
+- Add more chart types (heatmaps, session replays)
+- Add pagination to data tables
